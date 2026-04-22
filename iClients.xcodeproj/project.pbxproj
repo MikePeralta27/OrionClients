@@ -12,37 +12,37 @@
 			containerPortal = C889A2642F9878CD00425821 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C889A26B2F9878CD00425821;
-			remoteInfo = OrionClients;
+			remoteInfo = iClients;
 		};
 		C889A2892F9878CF00425821 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C889A2642F9878CD00425821 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C889A26B2F9878CD00425821;
-			remoteInfo = OrionClients;
+			remoteInfo = iClients;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C889A26C2F9878CD00425821 /* OrionClients.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrionClients.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C889A27E2F9878CF00425821 /* OrionClientsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrionClientsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C889A2882F9878CF00425821 /* OrionClientsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrionClientsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C889A26C2F9878CD00425821 /* iClients.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iClients.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C889A27E2F9878CF00425821 /* iClientsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iClientsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C889A2882F9878CF00425821 /* iClientsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iClientsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C889A26E2F9878CD00425821 /* OrionClients */ = {
+		C889A26E2F9878CD00425821 /* iClients */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = OrionClients;
+			path = iClients;
 			sourceTree = "<group>";
 		};
-		C889A2812F9878CF00425821 /* OrionClientsTests */ = {
+		C889A2812F9878CF00425821 /* iClientsTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = OrionClientsTests;
+			path = iClientsTests;
 			sourceTree = "<group>";
 		};
-		C889A28B2F9878CF00425821 /* OrionClientsUITests */ = {
+		C889A28B2F9878CF00425821 /* iClientsUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = OrionClientsUITests;
+			path = iClientsUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +75,9 @@
 		C889A2632F9878CD00425821 = {
 			isa = PBXGroup;
 			children = (
-				C889A26E2F9878CD00425821 /* OrionClients */,
-				C889A2812F9878CF00425821 /* OrionClientsTests */,
-				C889A28B2F9878CF00425821 /* OrionClientsUITests */,
+				C889A26E2F9878CD00425821 /* iClients */,
+				C889A2812F9878CF00425821 /* iClientsTests */,
+				C889A28B2F9878CF00425821 /* iClientsUITests */,
 				C889A26D2F9878CD00425821 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,9 +85,9 @@
 		C889A26D2F9878CD00425821 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C889A26C2F9878CD00425821 /* OrionClients.app */,
-				C889A27E2F9878CF00425821 /* OrionClientsTests.xctest */,
-				C889A2882F9878CF00425821 /* OrionClientsUITests.xctest */,
+				C889A26C2F9878CD00425821 /* iClients.app */,
+				C889A27E2F9878CF00425821 /* iClientsTests.xctest */,
+				C889A2882F9878CF00425821 /* iClientsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C889A26B2F9878CD00425821 /* OrionClients */ = {
+		C889A26B2F9878CD00425821 /* iClients */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C889A2922F9878CF00425821 /* Build configuration list for PBXNativeTarget "OrionClients" */;
+			buildConfigurationList = C889A2922F9878CF00425821 /* Build configuration list for PBXNativeTarget "iClients" */;
 			buildPhases = (
 				C889A2682F9878CD00425821 /* Sources */,
 				C889A2692F9878CD00425821 /* Frameworks */,
@@ -108,18 +108,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C889A26E2F9878CD00425821 /* OrionClients */,
+				C889A26E2F9878CD00425821 /* iClients */,
 			);
-			name = OrionClients;
+			name = iClients;
 			packageProductDependencies = (
 			);
-			productName = OrionClients;
-			productReference = C889A26C2F9878CD00425821 /* OrionClients.app */;
+			productName = iClients;
+			productReference = C889A26C2F9878CD00425821 /* iClients.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C889A27D2F9878CF00425821 /* OrionClientsTests */ = {
+		C889A27D2F9878CF00425821 /* iClientsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C889A2952F9878CF00425821 /* Build configuration list for PBXNativeTarget "OrionClientsTests" */;
+			buildConfigurationList = C889A2952F9878CF00425821 /* Build configuration list for PBXNativeTarget "iClientsTests" */;
 			buildPhases = (
 				C889A27A2F9878CF00425821 /* Sources */,
 				C889A27B2F9878CF00425821 /* Frameworks */,
@@ -131,18 +131,18 @@
 				C889A2802F9878CF00425821 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				C889A2812F9878CF00425821 /* OrionClientsTests */,
+				C889A2812F9878CF00425821 /* iClientsTests */,
 			);
-			name = OrionClientsTests;
+			name = iClientsTests;
 			packageProductDependencies = (
 			);
-			productName = OrionClientsTests;
-			productReference = C889A27E2F9878CF00425821 /* OrionClientsTests.xctest */;
+			productName = iClientsTests;
+			productReference = C889A27E2F9878CF00425821 /* iClientsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C889A2872F9878CF00425821 /* OrionClientsUITests */ = {
+		C889A2872F9878CF00425821 /* iClientsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C889A2982F9878CF00425821 /* Build configuration list for PBXNativeTarget "OrionClientsUITests" */;
+			buildConfigurationList = C889A2982F9878CF00425821 /* Build configuration list for PBXNativeTarget "iClientsUITests" */;
 			buildPhases = (
 				C889A2842F9878CF00425821 /* Sources */,
 				C889A2852F9878CF00425821 /* Frameworks */,
@@ -154,13 +154,13 @@
 				C889A28A2F9878CF00425821 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				C889A28B2F9878CF00425821 /* OrionClientsUITests */,
+				C889A28B2F9878CF00425821 /* iClientsUITests */,
 			);
-			name = OrionClientsUITests;
+			name = iClientsUITests;
 			packageProductDependencies = (
 			);
-			productName = OrionClientsUITests;
-			productReference = C889A2882F9878CF00425821 /* OrionClientsUITests.xctest */;
+			productName = iClientsUITests;
+			productReference = C889A2882F9878CF00425821 /* iClientsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C889A2672F9878CD00425821 /* Build configuration list for PBXProject "OrionClients" */;
+			buildConfigurationList = C889A2672F9878CD00425821 /* Build configuration list for PBXProject "iClients" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C889A26B2F9878CD00425821 /* OrionClients */,
-				C889A27D2F9878CF00425821 /* OrionClientsTests */,
-				C889A2872F9878CF00425821 /* OrionClientsUITests */,
+				C889A26B2F9878CD00425821 /* iClients */,
+				C889A27D2F9878CF00425821 /* iClientsTests */,
+				C889A2872F9878CF00425821 /* iClientsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		C889A2802F9878CF00425821 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C889A26B2F9878CD00425821 /* OrionClients */;
+			target = C889A26B2F9878CD00425821 /* iClients */;
 			targetProxy = C889A27F2F9878CF00425821 /* PBXContainerItemProxy */;
 		};
 		C889A28A2F9878CF00425821 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C889A26B2F9878CD00425821 /* OrionClients */;
+			target = C889A26B2F9878CD00425821 /* iClients */;
 			targetProxy = C889A2892F9878CF00425821 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -410,7 +410,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.OrionClients;
+				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.iClients;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -442,7 +442,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.OrionClients;
+				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.iClients;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -464,7 +464,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.OrionClientsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.iClientsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -472,7 +472,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrionClients.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OrionClients";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iClients.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iClients";
 			};
 			name = Debug;
 		};
@@ -486,7 +486,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.OrionClientsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.iClientsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -494,7 +494,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrionClients.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OrionClients";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iClients.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iClients";
 			};
 			name = Release;
 		};
@@ -506,7 +506,7 @@
 				DEVELOPMENT_TEAM = GG8ZXNPYVQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.OrionClientsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.iClientsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -514,7 +514,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OrionClients;
+				TEST_TARGET_NAME = iClients;
 			};
 			name = Debug;
 		};
@@ -526,7 +526,7 @@
 				DEVELOPMENT_TEAM = GG8ZXNPYVQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.OrionClientsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.michaelp.iClientsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -534,14 +534,14 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OrionClients;
+				TEST_TARGET_NAME = iClients;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C889A2672F9878CD00425821 /* Build configuration list for PBXProject "OrionClients" */ = {
+		C889A2672F9878CD00425821 /* Build configuration list for PBXProject "iClients" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C889A2902F9878CF00425821 /* Debug */,
@@ -550,7 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C889A2922F9878CF00425821 /* Build configuration list for PBXNativeTarget "OrionClients" */ = {
+		C889A2922F9878CF00425821 /* Build configuration list for PBXNativeTarget "iClients" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C889A2932F9878CF00425821 /* Debug */,
@@ -559,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C889A2952F9878CF00425821 /* Build configuration list for PBXNativeTarget "OrionClientsTests" */ = {
+		C889A2952F9878CF00425821 /* Build configuration list for PBXNativeTarget "iClientsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C889A2962F9878CF00425821 /* Debug */,
@@ -568,7 +568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C889A2982F9878CF00425821 /* Build configuration list for PBXNativeTarget "OrionClientsUITests" */ = {
+		C889A2982F9878CF00425821 /* Build configuration list for PBXNativeTarget "iClientsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C889A2992F9878CF00425821 /* Debug */,

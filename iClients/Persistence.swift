@@ -1,6 +1,6 @@
 //
 //  Persistence.swift
-//  OrionClients
+//  iClients
 //
 //  Created by Michael Peralta on 4/21/26.
 //
@@ -32,7 +32,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "OrionClients")
+        container = NSPersistentContainer(name: "iClients")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }

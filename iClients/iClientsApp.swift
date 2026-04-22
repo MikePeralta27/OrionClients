@@ -1,6 +1,6 @@
 //
-//  OrionClientsApp.swift
-//  OrionClients
+//  iClientsApp.swift
+//  iClients
 //
 //  Created by Michael Peralta on 4/21/26.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 @main
-struct OrionClientsApp: App {
+struct iClientsApp: App {
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {

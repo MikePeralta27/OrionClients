@@ -1,13 +1,13 @@
 //
-//  OrionClientsUITestsLaunchTests.swift
-//  OrionClientsUITests
+//  iClientsUITestsLaunchTests.swift
+//  iClientsUITests
 //
 //  Created by Michael Peralta on 4/21/26.
 //
 
 import XCTest
 
-final class OrionClientsUITestsLaunchTests: XCTestCase {
+final class iClientsUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
