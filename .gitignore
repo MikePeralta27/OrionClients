@@ -1,1 +1,4 @@
-.cursor/
+# Ignore local-only Cursor data under .cursor, but keep shared rules in git
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
