@@ -1,43 +1,140 @@
-//
-//  iClientsUITests.swift
-//  iClientsUITests
-//
-//  Created by Michael Peralta on 4/21/26.
-//
-
 import XCTest
-
 final class iClientsUITests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+    private var app: XCUIApplication!
+    override func setUp() {
+        super.setUp()
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+        app = XCUIApplication()
+        app.launchArguments.append("-UITesting")
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // XCUIAutomation Documentation
-        // https://developer.apple.com/documentation/xcuiautomation
     }
-
+    override func tearDown() {
+        app = nil
+        super.tearDown()
+    }
+    // MARK: - 1. Launch shows the empty state on first run
     @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+    func test_launch_emptyStoreShowsEmptyState() {
+        XCTAssertTrue(
+            app.navigationBars["iClients"].waitForExistence(timeout: 5),
+            "Should land on the clients screen after launch"
+        )
+        XCTAssertTrue(
+            app.staticTexts["No clients yet"].exists,
+            "Empty-store run should surface the empty-state copy"
+        )
+    }
+    // MARK: - 2. Adding a valid client makes it appear in the grid
+    @MainActor
+    func test_addClient_withValidData_appearsInTheList() {
+        tapAddClient()
+        fillClientForm(
+            companyName: "Acme Corp",
+            email: "hello@acme.com",
+            phone: "5551234567"
+        )
+        app.buttons["Add"].tap()
+        XCTAssertTrue(
+            app.staticTexts["Acme Corp"].waitForExistence(timeout: 2),
+            "New client card should appear in the grid"
+        )
+    }
+    // MARK: - 3. Save button stays disabled until every required field is valid
+    @MainActor
+    func test_addClient_saveButtonDisabled_whenFormIncomplete() {
+        tapAddClient()
+        let saveButton = app.buttons["Add"]
+        XCTAssertFalse(saveButton.isEnabled, "Should be disabled with all fields empty")
+        type(into: "companyNameField", text: "Ab")
+        XCTAssertFalse(saveButton.isEnabled, "Still disabled — email/phone empty")
+        type(into: "emailField", text: "bademail")
+        XCTAssertFalse(saveButton.isEnabled, "Still disabled — email has bad format")
+        type(into: "phoneField", text: "5551234567")
+        XCTAssertFalse(saveButton.isEnabled, "Still disabled — email format still invalid")
+        // Fix the email
+        let emailField = app.textFields["emailField"]
+        emailField.tap()
+        emailField.press(forDuration: 1.0)
+        app.menuItems["Select All"].tap()
+        emailField.typeText("hello@acme.com")
+        XCTAssertTrue(saveButton.isEnabled, "Enabled only once every field is valid")
+    }
+    // MARK: - 4. Long-press → Edit updates the card
+    @MainActor
+    func test_editClient_viaContextMenu_updatesCardLabel() {
+        tapAddClient()
+        fillClientForm(companyName: "Old Name", email: "a@b.co", phone: "5551234567")
+        app.buttons["Add"].tap()
+        let originalCard = app.staticTexts["Old Name"]
+        XCTAssertTrue(originalCard.waitForExistence(timeout: 2))
+        originalCard.press(forDuration: 1.2)
+        app.buttons["Edit"].tap()
+        let field = app.textFields["companyNameField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 2))
+        field.tap()
+        field.press(forDuration: 1.0)
+        app.menuItems["Select All"].tap()
+        field.typeText("New Name")
+        app.buttons["Save"].tap()
+        XCTAssertTrue(app.staticTexts["New Name"].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.staticTexts["Old Name"].exists)
+    }
+    // MARK: - 5. Long-press → Delete removes the card
+    @MainActor
+    func test_deleteClient_viaContextMenu_removesCard() {
+        tapAddClient()
+        fillClientForm(companyName: "Delete Me", email: "d@b.co", phone: "5551234567")
+        app.buttons["Add"].tap()
+        let card = app.staticTexts["Delete Me"]
+        XCTAssertTrue(card.waitForExistence(timeout: 2))
+        card.press(forDuration: 1.2)
+        app.buttons["Delete"].tap()
+        XCTAssertFalse(
+            card.waitForExistence(timeout: 2),
+            "Card should be gone after context-menu delete"
+        )
+    }
+    // MARK: - 6. Drill into a client, add an address, confirm it's listed
+    @MainActor
+    func test_addAddress_appearsInAddressListForClient() {
+        tapAddClient()
+        fillClientForm(companyName: "Has Addresses", email: "ha@x.co", phone: "5551234567")
+        app.buttons["Add"].tap()
+        app.staticTexts["Has Addresses"].tap()
+        XCTAssertTrue(app.navigationBars["Has Addresses"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["No addresses yet"].exists)
+        app.buttons["Add address"].tap()
+        type(into: "streetField", text: "123 Main St")
+        type(into: "cityField", text: "Brooklyn")
+        // Country picker
+        app.otherElements["countryPickerRow"].tap()
+        let search = app.searchFields.firstMatch
+        XCTAssertTrue(search.waitForExistence(timeout: 2))
+        search.tap()
+        search.typeText("United States")
+        app.buttons["United States"].firstMatch.tap()
+        type(into: "postalCodeField", text: "11201")
+        app.buttons["Add"].tap()
+        XCTAssertTrue(
+            app.staticTexts["123 Main St"].waitForExistence(timeout: 2),
+            "New address should appear in the address list"
+        )
+    }
+    // MARK: - Helpers
+    private func tapAddClient() {
+        let addButton = app.buttons["Add client"]
+        XCTAssertTrue(addButton.waitForExistence(timeout: 5))
+        addButton.tap()
+    }
+    private func fillClientForm(companyName: String, email: String, phone: String) {
+        type(into: "companyNameField", text: companyName)
+        type(into: "emailField",        text: email)
+        type(into: "phoneField",        text: phone)
+    }
+    private func type(into identifier: String, text: String) {
+        let field = app.textFields[identifier]
+        XCTAssertTrue(field.waitForExistence(timeout: 2), "Missing field: \(identifier)")
+        field.tap()
+        field.typeText(text)
     }
 }
