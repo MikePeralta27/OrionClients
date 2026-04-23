@@ -150,15 +150,13 @@ Accessibility identifiers are set on every form field and toolbar button to make
 - **`.sheet(item:)` for forms.** Re-creating the form view + VM per presentation gives free state-resetting behavior ("clear the fields" requirement) without manual work.
 - **Adaptive grid with fixed card size.** `GridItem(.adaptive(minimum: 165, maximum: 180))` keeps every card the same shape while scaling the column count to the device — no stretched or shrunken cards.
 
-## What I would add next
 
-- "Unsaved changes" confirmation when cancelling a dirty form
-- Swipe-to-delete confirmation alert on the client cards (currently direct delete via context menu)
-- CloudKit sync via `NSPersistentCloudKitContainer`
-- Localization (all strings are already literals, no `Localizable.strings` yet)
-- Accessibility pass: `.accessibilityElement(children: .combine)` on cards and rows, dynamic type verification
-- `AddressRepository` and `AddressFormViewModel` unit tests mirroring the client-side ones
-- Richer phone / email validation with a dedicated library (e.g. PhoneNumberKit)
+<img width="423" height="936" alt="Screenshot 2026-04-23 at 12 07 33 PM" src="https://github.com/user-attachments/assets/b49552e0-1273-4c09-95d1-6c8b8d0135a2" />
+<img width="464" height="954" alt="Screenshot 2026-04-23 at 12 07 41 PM" src="https://github.com/user-attachments/assets/9f7d2a9a-c232-4c16-b815-c4dadc4b76ce" />
+
+https://github.com/user-attachments/assets/1c1ba1ae-e028-43f7-9394-c6e33a1624ee
+
+
 
 ## Author
 
