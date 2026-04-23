@@ -17,6 +17,8 @@ final class AddressFormViewModel: ObservableObject {
     static let streetMax = 60
     static let cityMin = 2
     static let cityMax = 40
+    static let countryMin = 2
+    static let countryMax = 40
     static let postalCodeMin = 3
     static let postalCodeMax = 12
     
@@ -35,7 +37,13 @@ final class AddressFormViewModel: ObservableObject {
             }
         }
     }
-    @Published var country: String = ""  // set via CountryPickerView
+    @Published var country: String = "" {
+        didSet {
+            if country.count > Self.countryMax {
+                country = String(country.prefix(Self.countryMax))
+            }
+        }
+    }
     @Published var postalCode: String = "" {
         didSet {
             if postalCode.count > Self.postalCodeMax {
@@ -55,7 +63,7 @@ final class AddressFormViewModel: ObservableObject {
         if case .edit(let address) = mode {
             street = String((address.street ?? "").prefix(Self.streetMax))
             city = String((address.city ?? "").prefix(Self.cityMax))
-            country = address.country ?? ""
+            country = String((address.country ?? "").prefix(Self.countryMax))
             postalCode = String(
                 (address.postalCode ?? "").prefix(Self.postalCodeMax)
             )
@@ -92,7 +100,8 @@ final class AddressFormViewModel: ObservableObject {
     var isValid: Bool {
         trimmedStreet.count >= Self.streetMin
             && trimmedCity.count >= Self.cityMin
-            && !trimmedCountry.isEmpty
+            && trimmedCountry.count >= Self.countryMin
+            && trimmedCountry.count <= Self.countryMax
             && trimmedPostalCode.count >= Self.postalCodeMin
     }
    

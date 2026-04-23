@@ -106,19 +106,40 @@ final class iClientsUITests: XCTestCase {
         app.buttons["Add address"].tap()
         type(into: "streetField", text: "123 Main St")
         type(into: "cityField", text: "Brooklyn")
-        // Country picker
-        app.otherElements["countryPickerRow"].tap()
-        let search = app.searchFields.firstMatch
-        XCTAssertTrue(search.waitForExistence(timeout: 2))
-        search.tap()
-        search.typeText("United States")
-        app.buttons["United States"].firstMatch.tap()
+        type(into: "countryField", text: "United States")
         type(into: "postalCodeField", text: "11201")
         app.buttons["Add"].tap()
         XCTAssertTrue(
             app.staticTexts["123 Main St"].waitForExistence(timeout: 2),
             "New address should appear in the address list"
         )
+    }
+    // MARK: - 7. Address save stays disabled for invalid country length
+    @MainActor
+    func test_addAddress_countryLengthValidation_controlsSaveButton() {
+        tapAddClient()
+        fillClientForm(companyName: "Country Rules", email: "rules@x.co", phone: "5551234567")
+        app.buttons["Add"].tap()
+        app.staticTexts["Country Rules"].tap()
+        app.buttons["Add address"].tap()
+        type(into: "streetField", text: "123 Main St")
+        type(into: "cityField", text: "Brooklyn")
+        type(into: "postalCodeField", text: "11201")
+        let addButton = app.buttons["Add"]
+        XCTAssertFalse(addButton.isEnabled, "Country is still empty")
+        type(into: "countryField", text: "U")
+        XCTAssertFalse(addButton.isEnabled, "Country must have at least 2 characters")
+        let countryField = app.textFields["countryField"]
+        countryField.tap()
+        countryField.typeText("nited States and Beyond")
+        XCTAssertEqual(countryField.value as? String, "United States and Beyond")
+        countryField.typeText(String(repeating: "A", count: 30))
+        // Don't assert exact XCUI text value here; assert behavior.
+        // If max-length clamping is active, Save/Add should remain enabled.
+        let enabledAfterOverflow = NSPredicate(format: "isEnabled == true")
+        expectation(for: enabledAfterOverflow, evaluatedWith: addButton)
+        waitForExpectations(timeout: 2)
+        XCTAssertTrue(addButton.isEnabled, "Country becomes valid at 2...40 characters")
     }
     // MARK: - Helpers
     private func tapAddClient() {

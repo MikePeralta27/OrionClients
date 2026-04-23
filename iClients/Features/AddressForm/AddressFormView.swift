@@ -67,31 +67,25 @@ struct AddressFormView: View {
                     )
                 }
                 Section {
-                    NavigationLink {
-                        CountryPickerView(selectedCountry: $vm.country)
-                    } label: {
-                        HStack {
-                            Text("Country *")
-                                .foregroundStyle(.primary)
-                            Spacer()
-                            Text(
-                                vm.country.isEmpty
-                                    ? "Select country" : vm.country
-                            )
-                            .foregroundStyle(
-                                vm.country.isEmpty ? .secondary : .primary
-                            )
-                        }
-                    }
-                    .accessibilityIdentifier("countryPickerRow")
+                    TextField(
+                        "Country *",
+                        text: Binding(
+                            get: { vm.country },
+                            set: { vm.country = String($0.prefix(AddressFormViewModel.countryMax)) }
+                        )
+                    )
+                        .textInputAutocapitalization(.words)
+                        .textContentType(.countryName)
+                        .accessibilityIdentifier("countryField")
+                } header: {
+                    Text("Country")
                 } footer: {
-                    if vm.country.isEmpty {
-                        Text("Required")
-                            .foregroundStyle(.orange)
-                    } else {
-                        Text("Selected: \(vm.country)")
-                            .foregroundStyle(.secondary)
-                    }
+                    FieldValidationFooter(
+                        count: vm.country.count,
+                        minLength: AddressFormViewModel.countryMin,
+                        maxLength: AddressFormViewModel.countryMax,
+                        isRequired: true
+                    )
                 }
                 Section {
                     TextField("Postal code *", text: $vm.postalCode)
