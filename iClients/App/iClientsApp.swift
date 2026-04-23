@@ -5,8 +5,8 @@
 //  Created by Michael Peralta on 4/21/26.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 @main
 struct iClientsApp: App {
@@ -14,8 +14,11 @@ struct iClientsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            RootView()
+                .environment(
+                    \.managedObjectContext,
+                    persistenceController.container.viewContext
+                )
         }
     }
 }
