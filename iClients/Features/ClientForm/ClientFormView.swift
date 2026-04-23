@@ -12,6 +12,7 @@ struct ClientFormView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var vm: ClientFormViewModel
     @State private var saveErrorMessage: String?
+
     init(
         mode: ClientFormMode,
         context: NSManagedObjectContext = PersistenceController.shared.container
@@ -24,36 +25,59 @@ struct ClientFormView: View {
             )
         )
     }
+
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Company name", text: $vm.companyName)
+                    TextField("Company name *", text: $vm.companyName)
                         .textInputAutocapitalization(.words)
                         .autocorrectionDisabled()
+                        .accessibilityIdentifier("companyNameField")
                 } header: {
                     Text("Company")
                 } footer: {
-                    Text(
-                        "\(vm.companyName.count)/\(ClientFormViewModel.maxCompanyNameLength)"
-                    )
-                    .monospacedDigit()
-                    .foregroundStyle(
-                        vm.companyName.count
-                            >= ClientFormViewModel.maxCompanyNameLength
-                            ? .orange
-                            : .secondary
+                    FieldValidationFooter(
+                        count: vm.companyName.count,
+                        minLength: ClientFormViewModel.companyNameMin,
+                        maxLength: ClientFormViewModel.companyNameMax,
+                        isRequired: true
                     )
                 }
-                Section("Contact") {
-                    TextField("Email", text: $vm.email)
+                Section {
+                    TextField("Email *", text: $vm.email)
                         .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                        .accessibilityIdentifier("emailField")
                         .textContentType(.emailAddress)
-                    TextField("Phone", text: $vm.phone)
+                } header: {
+                    Text("Email")
+                } footer: {
+                    FieldValidationFooter(
+                        count: vm.email.count,
+                        minLength: ClientFormViewModel.emailMin,
+                        maxLength: ClientFormViewModel.emailMax,
+                        isRequired: true,
+                        formatError: vm.emailFormatError
+                    )
+                }
+                Section {
+                    TextField("Phone *", text: $vm.phone)
                         .keyboardType(.phonePad)
                         .textContentType(.telephoneNumber)
+                        .accessibilityIdentifier("phoneField")
+
+                } header: {
+                    Text("Phone")
+                } footer: {
+                    FieldValidationFooter(
+                        count: vm.phone.count,
+                        minLength: ClientFormViewModel.phoneMin,
+                        maxLength: ClientFormViewModel.phoneMax,
+                        isRequired: true,
+                        formatError: vm.phoneFormatError
+                    )
                 }
             }
             .navigationTitle(vm.title)
@@ -63,10 +87,8 @@ struct ClientFormView: View {
                     Button("Cancel") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(vm.saveButtonTitle) {
-                        attemptSave()
-                    }
-                    .disabled(!vm.isValid)
+                    Button(vm.saveButtonTitle) { attemptSave() }
+                        .disabled(!vm.isValid)
                 }
             }
             .alert(
@@ -80,9 +102,9 @@ struct ClientFormView: View {
             } message: {
                 Text(saveErrorMessage ?? "")
             }
-
         }
     }
+
     private func attemptSave() {
         do {
             try vm.save()
