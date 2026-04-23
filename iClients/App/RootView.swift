@@ -9,7 +9,8 @@ import CoreData
 import SwiftUI
 
 struct RootView: View {
-    @State private var didFinishSplash = false
+    @State private var didFinishSplash = ProcessInfo.processInfo.arguments.contains("-UITesting")
+    
     var body: some View {
         if didFinishSplash {
             NavigationStack {
@@ -24,6 +25,7 @@ struct RootView: View {
         }
     }
 }
+
 #Preview {
     RootView()
         .environment(

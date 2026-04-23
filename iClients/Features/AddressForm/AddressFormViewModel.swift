@@ -11,17 +11,40 @@ import SwiftUI
 
 @MainActor
 final class AddressFormViewModel: ObservableObject {
-    static let maxPostalCodeLength = 12
-    @Published var street: String = ""
-    @Published var city: String = ""
-    @Published var country: String = ""
-    @Published var postalCode: String = "" {
+    
+    // MARK: - Constraints
+    static let streetMin = 3
+    static let streetMax = 60
+    static let cityMin = 2
+    static let cityMax = 40
+    static let postalCodeMin = 3
+    static let postalCodeMax = 12
+    
+    // MARK: - Fields
+    @Published var street: String = "" {
         didSet {
-            if postalCode.count > Self.maxPostalCodeLength {
-                postalCode = String(postalCode.prefix(Self.maxPostalCodeLength))
+            if street.count > Self.streetMax {
+                street = String(street.prefix(Self.streetMax))
             }
         }
     }
+    @Published var city: String = "" {
+        didSet {
+            if city.count > Self.cityMax {
+                city = String(city.prefix(Self.cityMax))
+            }
+        }
+    }
+    @Published var country: String = ""  // set via CountryPickerView
+    @Published var postalCode: String = "" {
+        didSet {
+            if postalCode.count > Self.postalCodeMax {
+                postalCode = String(postalCode.prefix(Self.postalCodeMax))
+            }
+        }
+    }
+   
+    // MARK: - Dependencies
     private let mode: AddressFormMode
     private let client: Client
     private let repo: AddressRepository
@@ -30,13 +53,16 @@ final class AddressFormViewModel: ObservableObject {
         self.client = client
         self.repo = repo
         if case .edit(let address) = mode {
-            street = address.street ?? ""
-            city = address.city ?? ""
+            street = String((address.street ?? "").prefix(Self.streetMax))
+            city = String((address.city ?? "").prefix(Self.cityMax))
             country = address.country ?? ""
-            let existingPostal = address.postalCode ?? ""
-            postalCode = String(existingPostal.prefix(Self.maxPostalCodeLength))
+            postalCode = String(
+                (address.postalCode ?? "").prefix(Self.postalCodeMax)
+            )
         }
     }
+   
+    // MARK: - Titles
     var title: String {
         switch mode {
         case .create: return "Add Address"
@@ -49,24 +75,29 @@ final class AddressFormViewModel: ObservableObject {
         case .edit: return "Save"
         }
     }
-    var isValid: Bool {
-        let trimmedStreet = street.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-        let trimmedCity = city.trimmingCharacters(in: .whitespacesAndNewlines)
-        return !trimmedStreet.isEmpty && !trimmedCity.isEmpty
+    
+    // MARK: - Validation
+    private var trimmedStreet: String {
+        street.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+    private var trimmedCity: String {
+        city.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    private var trimmedCountry: String {
+        country.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    private var trimmedPostalCode: String {
+        postalCode.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    var isValid: Bool {
+        trimmedStreet.count >= Self.streetMin
+            && trimmedCity.count >= Self.cityMin
+            && !trimmedCountry.isEmpty
+            && trimmedPostalCode.count >= Self.postalCodeMin
+    }
+   
+    // MARK: - Save
     func save() throws {
-        let trimmedStreet = street.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-        let trimmedCity = city.trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedCountry = country.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-        let trimmedPostal = postalCode.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
         switch mode {
         case .create:
             try repo.create(
@@ -74,7 +105,7 @@ final class AddressFormViewModel: ObservableObject {
                 street: trimmedStreet,
                 city: trimmedCity,
                 country: trimmedCountry,
-                postalCode: trimmedPostal
+                postalCode: trimmedPostalCode
             )
         case .edit(let address):
             try repo.update(
@@ -82,7 +113,7 @@ final class AddressFormViewModel: ObservableObject {
                 street: trimmedStreet,
                 city: trimmedCity,
                 country: trimmedCountry,
-                postalCode: trimmedPostal
+                postalCode: trimmedPostalCode
             )
         }
     }

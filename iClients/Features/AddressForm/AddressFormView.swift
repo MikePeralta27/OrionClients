@@ -1,14 +1,23 @@
+//
+//  AddressFormView.swift
+//  iClients
+//
+//  Created by Michael Peralta on 4/22/26.
+//
 
 import CoreData
 import SwiftUI
+
 struct AddressFormView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var vm: AddressFormViewModel
     @State private var saveErrorMessage: String?
+   
     init(
         mode: AddressFormMode,
         client: Client,
-        context: NSManagedObjectContext = PersistenceController.shared.container.viewContext
+        context: NSManagedObjectContext = PersistenceController.shared.container
+            .viewContext
     ) {
         _vm = StateObject(
             wrappedValue: AddressFormViewModel(
@@ -18,43 +27,89 @@ struct AddressFormView: View {
             )
         )
     }
+   
     var body: some View {
         NavigationStack {
             Form {
-                Section("Street") {
+                Section {
                     TextField(
-                        "Street address",
+                        "Street address *",
                         text: $vm.street,
                         axis: .vertical
                     )
                     .lineLimit(1...3)
                     .textInputAutocapitalization(.words)
                     .textContentType(.fullStreetAddress)
-                }
-                Section("Location") {
-                    TextField("City", text: $vm.city)
-                        .textInputAutocapitalization(.words)
-                        .textContentType(.addressCity)
-                    TextField("Country", text: $vm.country)
-                        .textInputAutocapitalization(.words)
-                        .textContentType(.countryName)
+                    .accessibilityIdentifier("streetField")
+                } header: {
+                    Text("Street")
+                } footer: {
+                    FieldValidationFooter(
+                        count: vm.street.count,
+                        minLength: AddressFormViewModel.streetMin,
+                        maxLength: AddressFormViewModel.streetMax,
+                        isRequired: true
+                    )
                 }
                 Section {
-                    TextField("Postal code", text: $vm.postalCode)
+                    TextField("City *", text: $vm.city)
+                        .textInputAutocapitalization(.words)
+                        .textContentType(.addressCity)
+                        .accessibilityIdentifier("cityField")
+                } header: {
+                    Text("City")
+                } footer: {
+                    FieldValidationFooter(
+                        count: vm.city.count,
+                        minLength: AddressFormViewModel.cityMin,
+                        maxLength: AddressFormViewModel.cityMax,
+                        isRequired: true
+                    )
+                }
+                Section {
+                    NavigationLink {
+                        CountryPickerView(selectedCountry: $vm.country)
+                    } label: {
+                        HStack {
+                            Text("Country *")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Text(
+                                vm.country.isEmpty
+                                    ? "Select country" : vm.country
+                            )
+                            .foregroundStyle(
+                                vm.country.isEmpty ? .secondary : .primary
+                            )
+                        }
+                    }
+                    .accessibilityIdentifier("countryPickerRow")
+                } footer: {
+                    if vm.country.isEmpty {
+                        Text("Required")
+                            .foregroundStyle(.orange)
+                    } else {
+                        Text("Selected: \(vm.country)")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Section {
+                    TextField("Postal code *", text: $vm.postalCode)
                         .keyboardType(.numbersAndPunctuation)
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
                         .textContentType(.postalCode)
+                        .accessibilityIdentifier("postalCodeField")
+
                 } header: {
                     Text("Postal Code")
                 } footer: {
-                    Text("\(vm.postalCode.count)/\(AddressFormViewModel.maxPostalCodeLength)")
-                        .monospacedDigit()
-                        .foregroundStyle(
-                            vm.postalCode.count >= AddressFormViewModel.maxPostalCodeLength
-                                ? .orange
-                                : .secondary
-                        )
+                    FieldValidationFooter(
+                        count: vm.postalCode.count,
+                        minLength: AddressFormViewModel.postalCodeMin,
+                        maxLength: AddressFormViewModel.postalCodeMax,
+                        isRequired: true
+                    )
                 }
             }
             .navigationTitle(vm.title)
@@ -64,10 +119,8 @@ struct AddressFormView: View {
                     Button("Cancel") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(vm.saveButtonTitle) {
-                        attemptSave()
-                    }
-                    .disabled(!vm.isValid)
+                    Button(vm.saveButtonTitle) { attemptSave() }
+                        .disabled(!vm.isValid)
                 }
             }
             .alert(
@@ -92,22 +145,34 @@ struct AddressFormView: View {
         }
     }
 }
+
 #Preview("Create") {
     let ctx = PersistenceController.preview.container.viewContext
     let request: NSFetchRequest<Client> = Client.fetchRequest()
-    let firstClient = (try? ctx.fetch(request))?.first
-        ?? Client.make(in: ctx, companyName: "Preview Client", email: "", phone: "")
+    let firstClient =
+        (try? ctx.fetch(request))?.first
+        ?? Client.make(
+            in: ctx,
+            companyName: "Preview Client",
+            email: "",
+            phone: ""
+        )
     return AddressFormView(mode: .create, client: firstClient, context: ctx)
 }
 #Preview("Edit") {
     let ctx = PersistenceController.preview.container.viewContext
-    let client = Client.make(in: ctx, companyName: "Acme Corp", email: "", phone: "")
+    let client = Client.make(
+        in: ctx,
+        companyName: "Acme Corp",
+        email: "",
+        phone: ""
+    )
     let address = Address.make(
         in: ctx,
         client: client,
         street: "123 Main St",
         city: "New York",
-        country: "USA",
+        country: "United States",
         postalCode: "10001"
     )
     return AddressFormView(mode: .edit(address), client: client, context: ctx)
