@@ -8,7 +8,12 @@
 import CoreData
 
 struct PersistenceController {
-    static let shared = PersistenceController()
+    static let shared: PersistenceController = {
+        if ProcessInfo.processInfo.arguments.contains("-UITesting") {
+            return PersistenceController(inMemory: true)
+        }
+        return PersistenceController()
+    }()
 
     @MainActor
     static let preview: PersistenceController = {
@@ -26,7 +31,7 @@ struct PersistenceController {
             client: acme,
             street: "123 Main St",
             city: "New York",
-            country: "USA",
+            country: "United States",
             postalCode: "10001"
         )
         _ = Address.make(
@@ -34,7 +39,7 @@ struct PersistenceController {
             client: acme,
             street: "500 Warehouse Rd",
             city: "Newark",
-            country: "USA",
+            country: "United States",
             postalCode: "07102"
         )
         let globex = Client.make(
@@ -48,7 +53,7 @@ struct PersistenceController {
             client: globex,
             street: "Av. Winston Churchill 1099",
             city: "Santo Domingo",
-            country: "Rep. Dominicana",
+            country: "Dominican Republic",
             postalCode: "10148"
         )
         _ = Address.make(
@@ -56,7 +61,7 @@ struct PersistenceController {
             client: globex,
             street: "Calle El Conde 55",
             city: "Santo Domingo",
-            country: "Rep. Dominicana",
+            country: "Dominican Republic",
             postalCode: "10210"
         )
         do {
@@ -72,18 +77,22 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "iClients")
+
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(
-                fileURLWithPath: "/dev/null"
-            )
+            let description = NSPersistentStoreDescription()
+            description.type = NSInMemoryStoreType
+            container.persistentStoreDescriptions = [description]
         }
+
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
+
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+    
     func newBackgroundContext() -> NSManagedObjectContext {
         let ctx = container.newBackgroundContext()
         ctx.automaticallyMergesChangesFromParent = true
