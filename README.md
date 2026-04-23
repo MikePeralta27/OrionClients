@@ -18,7 +18,7 @@ iOS client management app built for a technical test. Stores companies and their
   - Email format validation via `NSRegularExpression`
   - Phone format validation via `NSDataDetector` (accepts the platform's idea of a phone number, locale-friendly)
   - Save button stays disabled until every field is valid
-- **ISO-3166 country picker** for addresses — searchable, localized names pulled from `Locale.Region.isoRegions`, no free-form typos
+- **Country text field** for addresses with validation (`2...40` chars) and max-length clamping
 
 ## Architecture
 
@@ -37,7 +37,7 @@ View  ─────▶  ViewModel  ─────▶  Repository (protocol)
 
 ## Tech stack
 
-- **Swift 5.9+ / SwiftUI** (iOS 17+ — uses `.symbolEffect`, `Form` with `axis: .vertical`, `ContentUnavailableView`, `.searchable`)
+- **Swift 5.9+ / SwiftUI** (iOS 17+ — uses `.symbolEffect`, `Form` with `axis: .vertical`, `ContentUnavailableView`)
 - **Core Data** with **Codegen: Class Definition** for both `Client` and `Address`
 - **XCTest** + **XCUITest** against an in-memory Core Data stack
 - **Combine** (`ObservableObject` / `@Published`) for VM ↔ View binding
@@ -60,11 +60,11 @@ iClients/
 │   └── AddressRepository.swift  Protocol + CoreDataAddressRepository
 └── Features/
     ├── Splash/                  SplashView
-    ├── Shared/                  EmptyStateView, FieldValidationFooter, CountryPickerView
+    ├── Shared/                  EmptyStateView, FieldValidationFooter
     ├── ClientList/              Grid view, card, VM
     ├── ClientForm/              Add/Edit form + validation, VM
     ├── AddressList/             List view, row, VM
-    └── AddressForm/             Add/Edit form + country picker, VM
+    └── AddressForm/             Add/Edit form + country text field validation, VM
 ```
 
 ## Data model
@@ -85,10 +85,10 @@ Client (1) ────< addresses (Cascade) ────> (*) Address
 | Company name   | 2   | 80  | —                            |
 | Email          | 5   | 120 | RFC-ish regex                |
 | Phone          | 6   | 30  | `NSDataDetector(.phoneNumber)` |
-| Street         | 3   | 120 | —                            |
-| City           | 2   | 60  | —                            |
-| Country        | 1   | —   | Must be picked from ISO list |
-| Postal code    | 2   | 12  | —                            |
+| Street         | 3   | 60  | —                            |
+| City           | 2   | 40  | —                            |
+| Country        | 2   | 40  | Required text field          |
+| Postal code    | 3   | 12  | —                            |
 
 Limits live as `static let` constants on each ViewModel so tests can read the same source of truth the UI uses.
 
@@ -132,9 +132,10 @@ Every test — unit and UI — creates a fresh in-memory Core Data stack (`NSInM
 - The Save button stays disabled while the form is incomplete or has format errors
 - Editing a client via the context menu updates the card label live
 - Deleting a client via the context menu removes the card
-- Adding an address — including picking a country from the ISO picker — shows it in that client's address list
+- Adding an address with valid country text shows it in that client's address list
+- Address Save/Add button stays disabled for invalid country length and enables for valid `2...40`
 
-Accessibility identifiers are set on every form field, toolbar button, and picker row to make the UI tests resilient against copy changes.
+Accessibility identifiers are set on every form field and toolbar button to make the UI tests resilient against copy changes.
 
 ## Design decisions
 
